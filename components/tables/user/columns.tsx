@@ -1,4 +1,5 @@
 'use client';
+import { Icons } from '@/components/icons';
 import { User } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import moment from 'moment';
@@ -14,7 +15,14 @@ const UserInfo = ({ user }: { user: UserTypes }) => {
 
   return (
     <div className="flex items-center gap-4">
-      <img src={user?.image} alt="User Image" className="w-20 rounded-md" />
+      {user?.image ? (
+        <img src={user?.image} alt="User Image" className="w-20 rounded-md" />
+      ) : (
+        <div className="flex h-10 w-10 items-center justify-center rounded bg-gray-200">
+          <Icons.media />
+        </div>
+      )}
+
       <div className="flex flex-col gap-1">
         <h4 className="text-base font-semibold">{user?.name}</h4>
         <p>{user?.email}</p>
