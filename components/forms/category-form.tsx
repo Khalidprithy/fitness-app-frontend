@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { uploadToCloudinary } from '../actions';
 import InputField from '../custom/input';
+import RadioInputField from '../custom/radio-input-field';
 import { CategoryValues, categorySchema } from '../schemas';
 import { useToast } from '../ui/use-toast';
 
@@ -109,6 +110,13 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           <InputField name="name" label="name" type="text" />
           <InputField name="description" label="description" type="textarea" />
           <InputField name="image" label="image" type="image" />
+          <RadioInputField
+            form={form}
+            name="status"
+            label="status"
+            yesLabel="Active"
+            noLabel="Inactive"
+          />
 
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}

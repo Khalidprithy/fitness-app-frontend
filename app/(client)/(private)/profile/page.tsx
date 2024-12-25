@@ -1,3 +1,3 @@
 export default function page() {
-  return <div>User Profile</div>;
+  return <div className="mx-auto max-w-screen-xl">Profile Page</div>;
 }

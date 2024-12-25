@@ -43,7 +43,7 @@ export default function AdminAuthForm() {
     setLoading(false);
 
     if (res?.error) {
-      setError(res.error);
+      setError('Invalid credentials');
     } else {
       window.location.href = res?.url || callbackUrl;
     }
