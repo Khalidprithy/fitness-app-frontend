@@ -51,12 +51,12 @@ export const sideLinks: SideLink[] = [
     icon: 'dashboard',
     label: 'Dashboard'
   },
-  {
-    title: 'Manage App',
-    href: '/admin/manage-app',
-    icon: 'appStore',
-    label: 'manage App'
-  },
+  // {
+  //   title: 'Manage App',
+  //   href: '/admin/manage-app',
+  //   icon: 'appStore',
+  //   label: 'manage App'
+  // },
   {
     title: 'Category',
     href: '/admin/category',
