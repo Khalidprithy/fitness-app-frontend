@@ -38,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <TooltipTrigger asChild>
               <Button
                 size="sm"
-                onClick={() => router.push(`/dashboard/user/${data?._id}`)}
+                onClick={() => router.push(`/dashboard/users/${data?._id}`)}
                 variant="outline"
               >
                 <Edit className="h-4 w-4" />

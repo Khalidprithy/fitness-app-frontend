@@ -1,8 +1,8 @@
 import BreadCrumb from '@/components/breadcrumb';
 
 const breadcrumbItems = [
-  { title: 'Highlights', link: '/admin/highlights' },
-  { title: 'Create', link: '/admin/highlights/create' }
+  { title: 'Users', link: '/admin/users' },
+  { title: 'Create', link: '/admin/users/create' }
 ];
 
 export default function page() {
