@@ -1,9 +1,9 @@
 import BreadCrumb from '@/components/breadcrumb';
-import { UserForm } from '@/components/forms/user-form';
+import { SubscriptionForm } from '@/components/forms/subscription-form';
 
 const breadcrumbItems = [
-  { title: 'Users', link: '/admin/users' },
-  { title: 'Create', link: '/admin/users/create' }
+  { title: 'Subscription', link: '/admin/subscription' },
+  { title: 'Create', link: '/admin/subscription/create' }
 ];
 
 export default function page() {
@@ -11,7 +11,7 @@ export default function page() {
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <BreadCrumb items={breadcrumbItems} />
 
-      <UserForm />
+      <SubscriptionForm />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import { revalidatePathHandler } from '@/app/actions';
 import { AlertModal } from '@/components/modal/alert-modal';
+import { SubscriptionType } from '@/components/schemas';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
@@ -8,14 +9,18 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip';
-import { User } from '@/constants/data';
 import { baseFetch } from '@/lib/baseFetch';
+
 import { Edit, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+interface SubscriptionTypes extends SubscriptionType {
+  _id: string;
+}
+
 interface CellActionProps {
-  data: User;
+  data: SubscriptionTypes;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -24,12 +29,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    const res = await baseFetch(`/v1/user/delete/${data._id}`, {
+    const res = await baseFetch(`/v1/subscription/delete/${data._id}`, {
       method: 'DELETE'
     });
 
     if (res.status === 200) {
-      revalidatePathHandler('/admin/users');
+      revalidatePathHandler('/admin/subscription');
       setOpen(false);
     }
   };
@@ -58,7 +63,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <TooltipTrigger asChild>
               <Button
                 size="sm"
-                onClick={() => router.push(`/admin/users/update/${data?._id}`)}
+                onClick={() =>
+                  router.push(`/admin/subscription/update/${data._id}`)
+                }
                 variant="outline"
               >
                 <Edit className="h-4 w-4" />

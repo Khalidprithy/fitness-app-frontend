@@ -1,5 +1,54 @@
 import * as z from 'zod';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+  MODERATOR = 'moderator'
+}
+
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHERS = 'others'
+}
+
+export enum Type {
+  PAID = 'paid',
+  FREE = 'free',
+  EXPIRED = 'expired'
+}
+
+export enum Provider {
+  EMAIL = 'email',
+  GOOGLE = 'google',
+  APPLE = 'apple'
+}
+
+export type Reminder = {
+  day: string;
+  time: string;
+};
+
+export enum UserGoal {
+  LOSE_WEIGHT = 'lose_weight',
+  GAIN_MUSCLE = 'gain_muscle',
+  KEEP_FIT = 'keep_fit',
+  GET_STRONGER = 'get_stronger'
+}
+
+// Reusable string validators
+const requiredString = (fieldName: string) =>
+  z.string().min(1, `${fieldName} is required`).trim();
+const emailValidator = z.string().email('Invalid email format').trim();
+const positiveNumber = (fieldName: string) =>
+  z.number().positive(`${fieldName} must be positive`);
+
+// Reminder schema
+export const reminderSchema = z.object({
+  day: requiredString('Day'),
+  time: requiredString('Time')
+});
+
 export const adminLoginSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address' }),
   password: z
@@ -15,6 +64,34 @@ export const userLoginSchema = z.object({
 });
 
 export type UserLoginValue = z.infer<typeof userLoginSchema>;
+
+export const userSchema = z.object({
+  name: requiredString('Name'),
+  email: emailValidator,
+  password: z.string().min(8, 'Password should be at least 8 characters long'),
+  image: z.any().optional(),
+  goal: z.nativeEnum(UserGoal).default(UserGoal.KEEP_FIT),
+  phone: z.string().optional().nullable(),
+  role: z.nativeEnum(UserRole).default(UserRole.USER),
+  gender: z.nativeEnum(Gender).optional(),
+  status: z.boolean().default(true),
+  type: z.nativeEnum(Type).optional(),
+  birthdate: z.string().optional(), // Optional birthdate
+  weight: positiveNumber('Weight').optional(), // Optional weight
+  provider: z.nativeEnum(Provider).default(Provider.EMAIL),
+  goalWeight: positiveNumber('Goal Weight').optional(), // Optional goalWeight
+  trainingLevel: requiredString('Training Level').optional(), // Optional trainingLevel
+  activities: z
+    .array(z.string())
+    .nonempty('Activities cannot be empty')
+    .optional(),
+  reminders: z
+    .array(reminderSchema)
+    .nonempty('Reminders cannot be empty')
+    .optional()
+});
+
+export type UserTypes = z.infer<typeof userSchema>;
 
 const rootStreamSchema = z.object({
   root_stream_type: z.string().min(1, 'Type is required'),
@@ -173,3 +250,45 @@ export const workoutSchema = z.object({
 });
 
 export type WorkoutValues = z.infer<typeof workoutSchema>;
+
+// Enum for Duration Types
+export enum DurationType {
+  DAILY = 'daily',
+  WEEKLY = 'weekly',
+  MONTHLY = 'monthly',
+  YEARLY = 'yearly'
+}
+
+// Enum for Platforms
+export enum Platform {
+  IOS = 'ios',
+  ANDROID = 'android',
+  BOTH = 'both'
+}
+
+// Zod schema for Subscription
+export const subscriptionSchema = z.object({
+  name: z.string().min(1, 'Subscription name is required'), // Ensures name is a non-empty string
+  productId: z.string().min(1, 'Product ID is required'), // Ensures productId is a non-empty string
+  durationType: z
+    .enum([
+      DurationType.DAILY,
+      DurationType.WEEKLY,
+      DurationType.MONTHLY,
+      DurationType.YEARLY
+    ])
+    .default(DurationType.MONTHLY), // Ensures the duration type is one of the allowed values
+  duration: z.coerce
+    .number()
+    .int()
+    .positive('Duration must be a positive integer'), // Ensures the duration is a positive integer
+  platform: z
+    .enum([Platform.IOS, Platform.ANDROID, Platform.BOTH])
+    .default(Platform.BOTH), // Ensures the platform is one of the allowed values
+  price: z.coerce.number().positive('Price must be a positive number'), // Ensures the price is a positive number
+  status: z.boolean().default(true), // Ensures status is a boolean and defaults to true
+  description: z.string().optional().default(''), // Optional description field with a default empty string if not provided
+  features: z.array(z.string()).optional().default([]) // Optional array of features, default is an empty array if not provided
+});
+
+export type SubscriptionType = z.infer<typeof subscriptionSchema>;

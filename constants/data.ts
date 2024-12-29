@@ -93,12 +93,12 @@ export const sideLinks: SideLink[] = [
     icon: 'users',
     label: 'Users'
   },
-  // {
-  //   title: 'Contact',
-  //   href: '/admin/contact',
-  //   icon: 'users',
-  //   label: 'Contact'
-  // },
+  {
+    title: 'Subscription',
+    href: '/admin/subscription',
+    icon: 'dollar',
+    label: 'Subscription'
+  },
   // {
   //   title: 'Payment',
   //   href: '/admin/payment',
